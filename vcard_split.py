@@ -1,13 +1,13 @@
 #split vcf files
 import os
 
-def split_vcards(input_file = 'all.vcf', vcards_per_file=1, working_dir = './contacts'):
+def split_vcards(input_file, vcards_per_file=1, working_dir = './contacts'):
     output_seed = 'contacts-part-'
 
     if not os.path.exists(working_dir):
         os.mkdir(working_dir)
 
-    with open(input_file, 'r') as f:
+    with input_file as f:
         count = 0
         output_count = 1
         results = []
