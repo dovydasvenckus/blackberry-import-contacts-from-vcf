@@ -34,6 +34,8 @@ def split_vcards(input_file, vcards_per_file=1, working_dir = './contacts'):
         #write the last set of results to a file
         write_vcards(results, working_dir + os.path.sep + output_seed + str(output_count))
 
+        return working_dir + os.path.sep + output_seed + str(1) + '.vcf'
+
 def write_vcards(vcards, file_path):
     with open(file_path + '.vcf','w') as oFile:
         for item in vcards:
