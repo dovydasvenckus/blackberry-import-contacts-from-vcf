@@ -1,9 +1,13 @@
 #split vcf files
 import os
 
-def split_vcards(vcards_per_file=1, working_dir = './contacts', output_seed = 'contacts-part-', input_file = 'all.vcf'):
+def split_vcards(input_file = 'all.vcf', vcards_per_file=1, working_dir = './contacts'):
+    output_seed = 'contacts-part-'
 
-    with open(working_dir + os.path.sep + input_file,'r') as f:
+    if not os.path.exists(working_dir):
+        os.mkdir(working_dir)
+
+    with open(input_file, 'r') as f:
         count = 0
         output_count = 1
         results = []
@@ -14,9 +18,7 @@ def split_vcards(vcards_per_file=1, working_dir = './contacts', output_seed = 'c
                 results.append(line)
             else:
                 #output file with stored values
-                with open(working_dir + output_seed + str(output_count) + '.vcf','w') as oFile:
-                    for item in results:
-                        oFile.write(item)
+                write_vcards(results, working_dir + os.path.sep + output_seed + str(output_count))
 
                 #increment outputfile count
                 output_count += 1
@@ -30,7 +32,10 @@ def split_vcards(vcards_per_file=1, working_dir = './contacts', output_seed = 'c
                 
 
         #write the last set of results to a file
-        with open(working_dir + output_seed + str(output_count) + '.vcf','w') as oFile:
-            for item in results:
-                oFile.write(item)
+        write_vcards(results, working_dir + os.path.sep + output_seed + str(output_count))
+
+def write_vcards(vcards, file_path):
+    with open(file_path + '.vcf','w') as oFile:
+        for item in vcards:
+            oFile.write(item)
 
