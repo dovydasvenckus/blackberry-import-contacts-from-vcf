@@ -34,13 +34,13 @@ def parse_arguments():
 
 def parse_password(with_password):
     if with_password:
-        return getpass.getpass()
+        return ' -P %s ' %getpass.getpass()
     else:
         return ''
 
 def delete_contacts(password, vcard):
     #Work arround to delete contacts. Address book has only one contact that imported from vcard file
-    command = 'bio -i mime -f %s -o device -P %s -w erase' % (vcard, password)
+    command = 'bio -i mime -f %s -o device %s -w erase' % (vcard, password)
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
     process.wait()
 
@@ -50,7 +50,7 @@ def import_contacts(path, password):
     for vcard in os.listdir(os.getcwd()):
         if vcard.endswith('.vcf'):
             print(vcard)
-            command = 'bio -i mime -f %s -o device -P %s -w overwrite' % (vcard, password)
+            command = 'bio -i mime -f %s -o device %s -w overwrite' % (vcard, password)
             process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
             process.wait()
 
