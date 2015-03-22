@@ -1,13 +1,16 @@
 # blackberry-import-contacts-from-vcf
 ## Description
 Simple script to import contacts from VCF file format to blackberry OS7 phone over USB.
+I wrote this script because I was frustrated that I couldn't easily import my google contacts to my blackberry device.
 
 ## Usage
+1. Connect phone via USB cable to PC and select Sync Media
+2. Run this script:
     python import_contacts.py myContacts.vcf
 
 Additional flags:
 * -p will ask for password
-* -e will erase all contacts before import data
+* -e will erase all contacts before importing data
 
 ## Dependencies
 * Linux distribution
