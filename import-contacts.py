@@ -10,14 +10,15 @@ def main():
     #Files containing CR symbols, can't be sent to phone 
     to_unix(args.infile.name)
 
-    first_vcard_file = split_vcards(args.infile, 1, out_folder)
+    vcard_files = split_vcards(args.infile, 1, out_folder)
     
     password = parse_password(args.password)
 
     if (args.erase):
-        delete_contacts(password, first_vcard_file)
+        delete_contacts(password, vcard_files)
 
-    import_contacts(out_folder, password)
+    import_contacts(vcard_files, password)
+
 
 
 def to_unix(file_path):
@@ -38,21 +39,18 @@ def parse_password(with_password):
     else:
         return ''
 
-def delete_contacts(password, vcard):
+def delete_contacts(password, vcard_files):
     #Work arround to delete contacts. Address book has only one contact that imported from vcard file
-    command = 'bio -i mime -f %s -o device %s -w erase' % (vcard, password)
+    command = 'bio -i mime -f %s -o device %s -w erase' % (vcard_files.pop(0), password)
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
     process.wait()
 
-def import_contacts(path, password):
-    os.chdir(path)
+def import_contacts(vcard_files, password):
     commands = ''
-    for vcard in os.listdir(os.getcwd()):
-        if vcard.endswith('.vcf'):
-            print(vcard)
-            command = 'bio -i mime -f %s -o device %s -w overwrite' % (vcard, password)
-            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-            process.wait()
+    for vcard in vcard_files:
+        command = 'bio -i mime -f %s -o device %s -w overwrite' % (vcard, password)
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        process.wait()
 
 if __name__ == '__main__':
     main()

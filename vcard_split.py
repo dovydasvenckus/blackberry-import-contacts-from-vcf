@@ -11,6 +11,7 @@ def split_vcards(input_file, vcards_per_file=1, working_dir = './contacts'):
         count = 0
         output_count = 1
         results = []
+        vcard_files = []
         for line in f:
             if ("BEGIN:VCARD" in line):
                 count += 1
@@ -18,7 +19,7 @@ def split_vcards(input_file, vcards_per_file=1, working_dir = './contacts'):
                 results.append(line)
             else:
                 #output file with stored values
-                write_vcards(results, working_dir + os.path.sep + output_seed + str(output_count))
+                vcard_files.append(write_vcards(results, build_vcard_file_name(working_dir, output_count)))
 
                 #increment outputfile count
                 output_count += 1
@@ -32,12 +33,17 @@ def split_vcards(input_file, vcards_per_file=1, working_dir = './contacts'):
                 
 
         #write the last set of results to a file
-        write_vcards(results, working_dir + os.path.sep + output_seed + str(output_count))
+        vcard_files.append(write_vcards(results, build_vcard_file_name(working_dir, output_count)))
 
-        return working_dir + os.path.sep + output_seed + str(1) + '.vcf'
+        return vcard_files 
+
+
+def build_vcard_file_name(dir_path, number, file_naming='contacts-part-', ):
+    return dir_path + os.path.sep + file_naming + str(number) + '.vcf'
 
 def write_vcards(vcards, file_path):
-    with open(file_path + '.vcf','w') as oFile:
+    with open(file_path,'w') as oFile:
         for item in vcards:
             oFile.write(item)
+    return file_path
 
