@@ -2,6 +2,13 @@
 ## Description
 Simple script to import contacts from VCF file format to blackberry OS7 phone over USB.
 
+## Usage
+    python import_contacts.py myContacts.vcf
+
+Additional flags:
+* -p will ask for password
+* -e will erase all contacts before import data
+
 ## Dependencies
 * Linux distribution
 * Python2.7 or Python3.2
